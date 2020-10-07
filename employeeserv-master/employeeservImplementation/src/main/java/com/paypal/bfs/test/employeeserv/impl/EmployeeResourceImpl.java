@@ -24,7 +24,7 @@ public class EmployeeResourceImpl implements EmployeeResource {
         try{
             result = new ResponseEntity<>(employeeRepository.findById(Long.parseLong(id)).get(), HttpStatus.OK);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.OK, "Eployee is not present in our database.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee is not present in our database.");
         }
         return  result;
     }
@@ -35,10 +35,9 @@ public class EmployeeResourceImpl implements EmployeeResource {
      */
     @Override
     public ResponseEntity<Employee> addEmployee(Employee employee) {
-        // TODO: check if exist 
         Employee result = employeeRepository.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
         if (result != null) {
-            throw new ResponseStatusException(HttpStatus.FOUND, "Eployee already is in database.");
+            throw new ResponseStatusException(HttpStatus.FOUND, "Employee already is in database.");
         }
         return new ResponseEntity<>(employeeRepository.save(employee), HttpStatus.CREATED);
     }

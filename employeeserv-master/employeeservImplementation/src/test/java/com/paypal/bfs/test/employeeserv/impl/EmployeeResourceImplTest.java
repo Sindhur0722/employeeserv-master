@@ -45,6 +45,7 @@ public class EmployeeResourceImplTest {
         employee.setAddress(address);
     }
 
+
     @Test
     public void employeeGetByIdTest() {
 
@@ -57,7 +58,6 @@ public class EmployeeResourceImplTest {
 
     @Test
     public void addEmployeeTest() {
-        //Mockito.doReturn(employee).when(employeeRepository).findByFirstNameAndLastName("Sindhu","ailneni");
         Mockito.doReturn(employee).when(employeeRepository).save(Mockito.any(Employee.class));
         ResponseEntity<Employee> result  = employeeResource.addEmployee(employee);
 
