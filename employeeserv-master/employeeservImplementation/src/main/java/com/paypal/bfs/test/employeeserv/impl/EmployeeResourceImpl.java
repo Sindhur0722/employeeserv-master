@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Implementation class for employee resource.
@@ -23,7 +24,7 @@ public class EmployeeResourceImpl implements EmployeeResource {
         try{
             result = new ResponseEntity<>(employeeRepository.findById(Long.parseLong(id)).get(), HttpStatus.OK);
         } catch (Exception e) {
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.OK, "Eployee is not present in our database.");
         }
         return  result;
     }
@@ -37,7 +38,7 @@ public class EmployeeResourceImpl implements EmployeeResource {
         // TODO: check if exist 
         Employee result = employeeRepository.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
         if (result != null) {
-            return new ResponseEntity<>(HttpStatus.FOUND);
+            throw new ResponseStatusException(HttpStatus.FOUND, "Eployee already is in database.");
         }
         return new ResponseEntity<>(employeeRepository.save(employee), HttpStatus.CREATED);
     }
